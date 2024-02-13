@@ -4,40 +4,66 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
 class Program
 {
-    static void Main(string[] args)
+
+    static int NOD(int a, int b)
+
     {
-        int[] array = { 1, 2, -5, 3, 4, 5, 0, 9, 0, 1, 10, 3, -5, -3, -9, 10, 0, 7, 8 };
+        a = Math.Abs(a);
 
-        for (int i = 0; i < array.Length; i++)
+        b = Math.Abs(b);
+
+        while (a != 0 && b != 0)
         {
-            int num = array[i];
-            int count = 0;
-
-            bool coincidence = false;
-            for (int j = 0; j < i; j++)
+            if (a > b)
             {
-                if (array[j] == num)
-                {
-                    coincidence = true;
-                    break;
-                }
+                a %= b;
             }
-
-            if (!coincidence)
+            else
             {
-                for (int k = 0; k < array.Length; k++)
-                {
-                    if (array[k] == num)
-                    {
-                        count++;
-                    }
-                }
-                Console.WriteLine($" {num}  - {count} ");
+                b %= a;
             }
         }
+        return a + b;
     }
+
+    static int NOK(int a, int b)
+    {
+        return a + b / NOD(a, b);
+    }
+
+    static void TEST()
+    {
+        Console.Write("Enter a: ");
+        int a = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Enter b: ");
+        int b = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine($"NOD= {NOD(a, b)}");
+        Console.WriteLine($"NOK= {NOK(a, b)}");
+
+        int nod = 0, nok = 0;
+
+        NodNok(a, b, ref nod, ref nok);
+        Console.WriteLine($"NOD = {nod}");
+        Console.WriteLine($"NOK = {nok}");
+    }
+
+
+    static void NodNok(int a, int b, ref int nod, ref int nok)
+    {
+        nod = NOD(a, b);
+        nok = NOK(a, b);
+    }
+    static void Main(string[] args)
+
+    {
+
+        TEST();
+
+    }
+
+
 }
+
+
