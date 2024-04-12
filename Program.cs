@@ -49,7 +49,7 @@ namespace DelegatesExample
             List<ToDoTask> toDoTasks = GenerateTestToDoTaskList();
             //
             List<ToDoTask> filteredToDoTasks = new List<ToDoTask>();
-            foreach (ToDoTask task in toDoTasks)
+            foreach (ToDoTask task in toDoTasks.OrderBy(task => task.Description.Length))
             {
                 if (task.Title.ToLower().Contains("сделать"))
                 {
@@ -67,6 +67,7 @@ namespace DelegatesExample
             //
             IEnumerable<ToDoTask> query = from task in toDoTasks
                                           where task.Title.ToLower().Contains("сделать")
+                                          orderby task.Description.Length
                                           select task.Clone() as ToDoTask;
             WriteLineIEnumerable(query);
         }
@@ -78,6 +79,7 @@ namespace DelegatesExample
             List<ToDoTask> toDoTasks = GenerateTestToDoTaskList();
             //
             IEnumerable<ToDoTask> query = toDoTasks
+                .OrderBy(task => task.Description.Length)
                 .Where(task => task.Title.ToLower().Contains("сделать"))
                 .Select(task => task.Clone() as ToDoTask);
             WriteLineIEnumerable(query);
@@ -86,13 +88,16 @@ namespace DelegatesExample
         static void PriorityGreatTwo()
         {
             Console.WriteLine("\n\nDeclarativeMethodsCase\n===================");
-            List<ToDoTask> toDoTasks = GenerateTestToDoTaskList();
+            List<ToDoTask> ToDoTask = GenerateTestToDoTaskList();
 
-            IEnumerable<string> query = toDoTasks
+            IEnumerable<string> query = ToDoTask
+                .OrderBy(task => task.Description.Length)
                 .Where(task => !task.IsCompleted && task.Priority > 2)
                 .Select(task => task.Description);
             WriteLineIEnumerable(query);
+            Console.WriteLine();
         }
+
 
         static void Main(string[] args)
         {
